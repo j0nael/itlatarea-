@@ -1,4 +1,6 @@
-﻿using proyectcontacs;
+//jonthan geraldo 2024-2604 Friday night class
+
+using proyectcontacs;
 Console.WriteLine("Mi Agenda Perrón");
 
 Console.WriteLine("Bienvenido a tu lista de contactes");
