@@ -1,0 +1,15 @@
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\bin\Debug\net8.0\Contacts.Visual.exe
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\bin\Debug\net8.0\Contacts.Visual.deps.json
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\bin\Debug\net8.0\Contacts.Visual.runtimeconfig.json
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\bin\Debug\net8.0\Contacts.Visual.dll
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\bin\Debug\net8.0\Contacts.Visual.pdb
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\obj\Debug\net8.0\Contacts.Visual.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\obj\Debug\net8.0\Contacts.Visual.AssemblyInfoInputs.cache
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\obj\Debug\net8.0\Contacts.Visual.AssemblyInfo.cs
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\obj\Debug\net8.0\Contacts.Visual.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\obj\Debug\net8.0\Contacts.Visual.sourcelink.json
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\obj\Debug\net8.0\Contacts.Visual.dll
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\obj\Debug\net8.0\refint\Contacts.Visual.dll
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\obj\Debug\net8.0\Contacts.Visual.pdb
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\obj\Debug\net8.0\Contacts.Visual.genruntimeconfig.cache
+C:\Users\Admin\Documents\GitHub\itlatarea-\task #3 refactory\Contacts.Visual\obj\Debug\net8.0\ref\Contacts.Visual.dll

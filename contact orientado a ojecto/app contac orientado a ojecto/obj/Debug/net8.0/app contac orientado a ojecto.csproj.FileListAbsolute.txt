@@ -1,0 +1,15 @@
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\bin\Debug\net8.0\app contac orientado a ojecto.exe
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\bin\Debug\net8.0\app contac orientado a ojecto.deps.json
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\bin\Debug\net8.0\app contac orientado a ojecto.runtimeconfig.json
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\bin\Debug\net8.0\app contac orientado a ojecto.dll
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\bin\Debug\net8.0\app contac orientado a ojecto.pdb
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\obj\Debug\net8.0\app contac orientado a ojecto.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\obj\Debug\net8.0\app contac orientado a ojecto.AssemblyInfoInputs.cache
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\obj\Debug\net8.0\app contac orientado a ojecto.AssemblyInfo.cs
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\obj\Debug\net8.0\app contac orientado a ojecto.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\obj\Debug\net8.0\app contac orientado a ojecto.sourcelink.json
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\obj\Debug\net8.0\app contac orientado a ojecto.dll
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\obj\Debug\net8.0\refint\app contac orientado a ojecto.dll
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\obj\Debug\net8.0\app contac orientado a ojecto.pdb
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\obj\Debug\net8.0\app contac orientado a ojecto.genruntimeconfig.cache
+C:\Users\Admin\Documents\GitHub\itlatarea-\contact orientado a ojecto\app contac orientado a ojecto\obj\Debug\net8.0\ref\app contac orientado a ojecto.dll
