@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ContactsPOO")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5996092caeb6c3b63e3e93a7092f8c30190f437d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8a9b9d5ae35c7108ebf578928e25a331f0fa07d")]
 [assembly: System.Reflection.AssemblyProductAttribute("ContactsPOO")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ContactsPOO")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

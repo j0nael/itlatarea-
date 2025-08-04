@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\itlatarea-\\contact orientado a ojecto\\ContactsPOO\\ContactsPOO.csproj": {}
+    "C:\\Users\\Admin\\Documents\\GitHub\\itlatarea-\\task#4\\ContactsPOO\\ContactsPOO.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Documents\\GitHub\\itlatarea-\\contact orientado a ojecto\\ContactsPOO\\ContactsPOO.csproj": {
+    "C:\\Users\\Admin\\Documents\\GitHub\\itlatarea-\\task#4\\ContactsPOO\\ContactsPOO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\itlatarea-\\contact orientado a ojecto\\ContactsPOO\\ContactsPOO.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\itlatarea-\\task#4\\ContactsPOO\\ContactsPOO.csproj",
         "projectName": "ContactsPOO",
-        "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\itlatarea-\\contact orientado a ojecto\\ContactsPOO\\ContactsPOO.csproj",
+        "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\itlatarea-\\task#4\\ContactsPOO\\ContactsPOO.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\itlatarea-\\contact orientado a ojecto\\ContactsPOO\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\itlatarea-\\task#4\\ContactsPOO\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
