@@ -1,128 +1,133 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using taller_mecanico_v2.dbcontext;
-using taller_mecanico_v2.Migrations;
+using workshop_manager_v2.dbcontext;
 
-public class VendedorServicio
+public class SalespersonService
 {
-    public static void Agregar()
+    public static void Add()
     {
-        Console.Write("Nombre del vendedor: ");
-        string nombre = Console.ReadLine();
-        Console.Write("Apellidoi del vendedor: ");
-        string apellido = Console.ReadLine();
-        Console.Write("Correo del vendedor: ");
-        string correo = Console.ReadLine();
-        Console.Write("Telefono del vendedor: ");
-        string telefono = Console.ReadLine();
-        var vendedor = new Vendedor { Nombre = nombre,Apellido=apellido,Correo=correo,Telefono=telefono }
-        ;
+        Console.Write("Salesperson's First Name: ");
+        string firstName = Console.ReadLine();
+        Console.Write("Salesperson's Last Name: ");
+        string lastName = Console.ReadLine();
+        Console.Write("Salesperson's Email: ");
+        string email = Console.ReadLine();
+        Console.Write("Salesperson's Phone Number: ");
+        string phoneNumber = Console.ReadLine();
 
+        var salesperson = new Seller
+        {
+            FirstName = firstName,
+            LastName = lastName,
+            Email = email,
+            PhoneNumber = phoneNumber
+        };
 
-        using var db = new Conexion();
-        db.Vendedores.Add(vendedor);
+        using var db = new Connection();
+        db.Sellers.Add(salesperson);
         db.SaveChanges();
 
-        Console.WriteLine("Vendedor agregado.");
+        Console.WriteLine("Salesperson added.");
     }
 
-    public static void VerTodos()
+    public static void ViewAll()
     {
-        using var db = new Conexion();
-        var vendedores = db.Vendedores.ToList();
+        using var db = new Connection();
+        var salespersons = db.Sellers.ToList();
 
-        foreach (var v in vendedores)
+        foreach (var s in salespersons)
         {
-            Console.WriteLine($"ID: {v.Id}, Nombre: {v.Nombre},Apellido : {v.Apellido},Correo :{v.Correo},Telefono:{v.Telefono}");
+            Console.WriteLine($"ID: {s.Id}, First Name: {s.FirstName}, Last Name: {s.LastName}, Email: {s.Email}, Phone Number: {s.PhoneNumber}");
         }
     }
 
-    public static void VerPorId()
+    public static void ViewById()
     {
-        using var conexion = new Conexion(new DbContextOptionsBuilder<Conexion>().Options);
+        using var db = new Connection(new DbContextOptionsBuilder<Connection>().Options);
 
-        Console.Write("Ingrese el ID del vendedor a consultar: ");
+        Console.Write("Enter the ID of the salesperson to consult: ");
         if (int.TryParse(Console.ReadLine(), out int id))
         {
-            var vendedor = conexion.Vendedores.Find(id);
-            if (vendedor != null)
+            var salesperson = db.Sellers.Find(id);
+            if (salesperson != null)
             {
-                Console.WriteLine("=== Información del Vendedor ===");
-                Console.WriteLine($"ID: {vendedor.Id}");
-                Console.WriteLine($"Nombre: {vendedor.Nombre}");
-                Console.WriteLine($"Telefono: {vendedor.Apellido}");
-                Console.WriteLine($"Correo: {vendedor.Correo}");
-                Console.WriteLine($"Telefono: {vendedor.Telefono}");
-
+                Console.WriteLine("=== Salesperson Information ===");
+                Console.WriteLine($"ID: {salesperson.Id}");
+                Console.WriteLine($"First Name: {salesperson.FirstName}");
+                Console.WriteLine($"Last Name: {salesperson.LastName}");
+                Console.WriteLine($"Email: {salesperson.Email}");
+                Console.WriteLine($"Phone Number: {salesperson.PhoneNumber}");
             }
             else
             {
-                Console.WriteLine("`vendedor no encontrado.");
+                Console.WriteLine("Salesperson not found.");
             }
         }
         else
         {
-            Console.WriteLine("ID inválido.");
+            Console.WriteLine("Invalid ID.");
         }
     }
 
-    public static void Actualizar()
+    public static void Update()
     {
-        Console.Write("ID del vendedor a actualizar: ");
+        Console.Write("ID of the salesperson to update: ");
         if (!int.TryParse(Console.ReadLine(), out int id))
         {
-            Console.WriteLine("ID inválido.");
+            Console.WriteLine("Invalid ID.");
             return;
         }
 
-        using var db = new Conexion();
-        var vendedor = db.Vendedores.Find(id);
+        using var db = new Connection();
+        var salesperson = db.Sellers.Find(id);
 
-        if (vendedor == null)
+        if (salesperson == null)
         {
-            Console.WriteLine("Vendedor no encontrado.");
+            Console.WriteLine("Salesperson not found.");
             return;
         }
 
-        Console.Write($"Nombre actual: {vendedor.Nombre}. Nuevo nombre: ");
-        string nombre = Console.ReadLine();
-        vendedor.Nombre = string.IsNullOrEmpty(nombre) ? vendedor.Nombre : nombre;
-        Console.Write($"Nombre actual: {vendedor.Apellido}. Nuevo apellido: ");
-        string apellido = Console.ReadLine();
-        vendedor.Apellido = string.IsNullOrEmpty(apellido) ? vendedor.Apellido : apellido;
-        Console.Write($"Nombre actual: {vendedor.Correo}. Nuevo correo: ");
-        string correo = Console.ReadLine();
-        vendedor.Correo = string.IsNullOrEmpty(correo) ? vendedor.Correo : correo;
-        Console.Write($"Nombre actual: {vendedor.Telefono}. Nuevo telefono: ");
-        string telefono = Console.ReadLine();
-        vendedor.Telefono = string.IsNullOrEmpty(telefono) ? vendedor.Telefono : telefono;
+        Console.Write($"Current First Name: {salesperson.FirstName}. New First Name: ");
+        string firstName = Console.ReadLine();
+        salesperson.FirstName = string.IsNullOrEmpty(firstName) ? salesperson.FirstName : firstName;
 
+        Console.Write($"Current Last Name: {salesperson.LastName}. New Last Name: ");
+        string lastName = Console.ReadLine();
+        salesperson.LastName = string.IsNullOrEmpty(lastName) ? salesperson.LastName : lastName;
+
+        Console.Write($"Current Email: {salesperson.Email}. New Email: ");
+        string email = Console.ReadLine();
+        salesperson.Email = string.IsNullOrEmpty(email) ? salesperson.Email : email;
+
+        Console.Write($"Current Phone Number: {salesperson.PhoneNumber}. New Phone Number: ");
+        string phoneNumber = Console.ReadLine();
+        salesperson.PhoneNumber = string.IsNullOrEmpty(phoneNumber) ? salesperson.PhoneNumber : phoneNumber;
 
         db.SaveChanges();
-        Console.WriteLine("Vendedor actualizado.");
+        Console.WriteLine("Salesperson updated.");
     }
 
-    public static void Eliminar()
+    public static void Delete()
     {
-        Console.Write("ID del vendedor a eliminar: ");
+        Console.Write("ID of the salesperson to delete: ");
         if (!int.TryParse(Console.ReadLine(), out int id))
         {
-            Console.WriteLine("ID inválido.");
+            Console.WriteLine("Invalid ID.");
             return;
         }
 
-        using var db = new Conexion();
-        var vendedor = db.Vendedores.Find(id);
+        using var db = new Connection();
+        var salesperson = db.Sellers.Find(id);
 
-        if (vendedor == null)
+        if (salesperson == null)
         {
-            Console.WriteLine("Vendedor no encontrado.");
+            Console.WriteLine("Salesperson not found.");
             return;
         }
 
-        db.Vendedores.Remove(vendedor);
+        db.Sellers.Remove(salesperson);
         db.SaveChanges();
-        Console.WriteLine("Vendedor eliminado.");
+        Console.WriteLine("Salesperson deleted.");
     }
 }

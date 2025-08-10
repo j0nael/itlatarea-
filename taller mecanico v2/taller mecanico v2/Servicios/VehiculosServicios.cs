@@ -1,126 +1,124 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using taller_mecanico_v2.dbcontext;
+using workshop_manager_v2.dbcontext;
 
-public class VehiculoService
+public class VehicleService
 {
-    public static void VerPorplaca()
+    public static void ViewByLicensePlate()
     {
-        using var conexion = new Conexion(new DbContextOptionsBuilder<Conexion>().Options);
+        using var connection = new Connection(new DbContextOptionsBuilder<Connection>().Options);
 
-        Console.Write("Ingrese la placa del vehiculo a consultar: ");
-        if (int.TryParse(Console.ReadLine(), out int Placa))
+        Console.Write("Enter the vehicle's license plate to search: ");
+        string licensePlate = Console.ReadLine();
+
+        if (string.IsNullOrEmpty(licensePlate))
         {
-            var vehiculo = conexion.Vehiculos.Find(Placa);
-            if (vehiculo != null)
-            {
-                Console.WriteLine("=== Información del Vehiculo ===");
-                Console.WriteLine($"Placa: {vehiculo.Placa}");
-                Console.WriteLine($"Modelo: {vehiculo.Modelo}");
-                Console.WriteLine($"Marca: {vehiculo.Marca}");
-                Console.WriteLine($"Anio: {vehiculo.Año}");
-                Console.WriteLine($"Cliente: {vehiculo.IdCliente}");
-            }
-            else
-            {
-                Console.WriteLine("Vehiculo no encontrado.");
-            }
-        }
-        else
-        {
-            Console.WriteLine("ID inválido.");
-        }
-    }
-    public static void Agregar()
-    {
-        Console.Write("Placa: ");
-        string placa = Console.ReadLine();
-        Console.Write("Marca: ");
-        string marca = Console.ReadLine();
-        Console.Write("Modelo: ");
-        string modelo = Console.ReadLine();
-        Console.Write("Año: ");
-        int año = int.Parse(Console.ReadLine());
-        Console.Write("ID Cliente: ");
-        int idCliente = int.Parse(Console.ReadLine());
-
-        var vehiculo = new Vehiculo(placa, marca, modelo, año, idCliente);
-
-        using var db = new Conexion();
-        db.Vehiculos.Add(vehiculo);
-        db.SaveChanges();
-
-        db.Vehiculos.Include(a => a.Cliente).First();
-
-        Console.WriteLine("Vehículo agregado.");
-    }
-
-    public static void Ver()
-    {
-        using var db = new Conexion();
-        var lista = db.Vehiculos.ToList();
-
-        foreach (var v in lista)
-        {
-            Console.WriteLine($"Placa: {v.Placa}, Marca: {v.Marca}, Modelo: {v.Modelo}, Año: {v.Año}, ID Cliente: {v.IdCliente}");
-        }
-    }
-
-    public static void Actualizar()
-{
-        Console.Write("ID del vehículo a actualizar (placa): ");
-        string id = Console.ReadLine();
-
-        using var db = new Conexion();
-    var v = db.Vehiculos.Find(id);
-
-    if (v == null)
-    {
-        Console.WriteLine("Vehículo no encontrado.");
-        return;
-    }
-
-    Console.Write($"Placa actual ({v.Placa}). Nueva placa: ");
-    string placa = Console.ReadLine();
-    v.Placa = string.IsNullOrEmpty(placa) ? v.Placa : placa;
-
-    Console.Write($"Marca actual ({v.Marca}). Nueva marca: ");
-    string marca = Console.ReadLine();
-    v.Marca = string.IsNullOrEmpty(marca) ? v.Marca : marca;
-
-    Console.Write($"Modelo actual ({v.Modelo}). Nuevo modelo: ");
-    string modelo = Console.ReadLine();
-    v.Modelo = string.IsNullOrEmpty(modelo) ? v.Modelo : modelo;
-
-        Console.Write($"Año actual: {v.Año}. Nuevo año: ");
-        string anio = Console.ReadLine();
-        v.Año = int.TryParse(anio, out int nuevoAnio) ? nuevoAnio : v.Año;
-
-
-        db.SaveChanges();
-    Console.WriteLine("Vehículo actualizado.");
-}
-
-
-
-    public static void Eliminar()
-    {
-        Console.Write("ID del vehículo a eliminar: ");
-        int id = int.Parse(Console.ReadLine());
-
-        using var db = new Conexion();
-        var vehiculo = db.Vehiculos.Find(id);
-
-        if (vehiculo == null)
-        {
-            Console.WriteLine("Vehículo no encontrado.");
+            Console.WriteLine("Invalid license plate.");
             return;
         }
 
-        db.Vehiculos.Remove(vehiculo);
+        var vehicle = connection.Vehicles.Find(licensePlate);
+        if (vehicle != null)
+        {
+            Console.WriteLine("=== Vehicle Information ===");
+            Console.WriteLine($"License Plate: {vehicle.LicensePlate}");
+            Console.WriteLine($"Model: {vehicle.Model}");
+            Console.WriteLine($"Brand: {vehicle.Brand}");
+            Console.WriteLine($"Year: {vehicle.Year}");
+            Console.WriteLine($"Client ID: {vehicle.CustomerId}");
+        }
+        else
+        {
+            Console.WriteLine("Vehicle not found.");
+        }
+    }
+
+    public static void Add()
+    {
+        Console.Write("License Plate: ");
+        string licensePlate = Console.ReadLine();
+        Console.Write("Brand: ");
+        string brand = Console.ReadLine();
+        Console.Write("Model: ");
+        string model = Console.ReadLine();
+        Console.Write("Year: ");
+        int year = int.Parse(Console.ReadLine());
+        Console.Write("Client ID: ");
+        int clientId = int.Parse(Console.ReadLine());
+
+        var vehicle = new Vehicle(licensePlate, brand, model, year, clientId);
+
+        using var db = new Connection();
+        db.Vehicles.Add(vehicle);
         db.SaveChanges();
-        Console.WriteLine("Vehículo eliminado.");
+
+        db.Vehicles.Include(v => v.Customer).First();
+
+        Console.WriteLine("Vehicle added.");
+    }
+
+    public static void View()
+    {
+        using var db = new Connection();
+        var list = db.Vehicles.ToList();
+
+        foreach (var v in list)
+        {
+            Console.WriteLine($"License Plate: {v.LicensePlate}, Brand: {v.Brand}, Model: {v.Model}, Year: {v.Year}, Client ID: {v.CustomerId}");
+        }
+    }
+
+    public static void Update()
+    {
+        Console.Write("License plate of the vehicle to update: ");
+        string id = Console.ReadLine();
+
+        using var db = new Connection();
+        var v = db.Vehicles.Find(id);
+
+        if (v == null)
+        {
+            Console.WriteLine("Vehicle not found.");
+            return;
+        }
+
+        Console.Write($"Current license plate ({v.LicensePlate}). New license plate: ");
+        string licensePlate = Console.ReadLine();
+        v.LicensePlate = string.IsNullOrEmpty(licensePlate) ? v.LicensePlate : licensePlate;
+
+        Console.Write($"Current brand ({v.Brand}). New brand: ");
+        string brand = Console.ReadLine();
+        v.Brand = string.IsNullOrEmpty(brand) ? v.Brand : brand;
+
+        Console.Write($"Current model ({v.Model}). New model: ");
+        string model = Console.ReadLine();
+        v.Model = string.IsNullOrEmpty(model) ? v.Model : model;
+
+        Console.Write($"Current year: {v.Year}. New year: ");
+        string yearInput = Console.ReadLine();
+        v.Year = int.TryParse(yearInput, out int newYear) ? newYear : v.Year;
+
+        db.SaveChanges();
+        Console.WriteLine("Vehicle updated.");
+    }
+
+    public static void Delete()
+    {
+        Console.Write("License plate of the vehicle to delete: ");
+        string id = Console.ReadLine();
+
+        using var db = new Connection();
+        var vehicle = db.Vehicles.Find(id);
+
+        if (vehicle == null)
+        {
+            Console.WriteLine("Vehicle not found.");
+            return;
+        }
+
+        db.Vehicles.Remove(vehicle);
+        db.SaveChanges();
+        Console.WriteLine("Vehicle deleted.");
     }
 }
-

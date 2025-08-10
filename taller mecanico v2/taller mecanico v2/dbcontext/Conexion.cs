@@ -1,44 +1,45 @@
 ﻿using Microsoft.EntityFrameworkCore;
-namespace taller_mecanico_v2.dbcontext;
-public class Conexion : DbContext
+
+namespace workshop_manager_v2.dbcontext
 {
-    public Conexion() { } 
-    public Conexion(DbContextOptions<Conexion> options) : base(options) { }
-
-    public DbSet<Repuesto> Repuestos { get; set; }
-    public DbSet<Mecanico> Mecanicos { get; set; }
-    public DbSet<Cliente> Clientes { get; set; }
-    public DbSet<Reparacion> Reparaciones { get; set; }
-    public DbSet<Vehiculo> Vehiculos { get; set; }
-    public DbSet<Factura> Facturas{ get; set; }
-
-    public DbSet<Venta> Ventas{ get; set; }
-
-    public DbSet<Vendedor> Vendedores{ get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public class Connection : DbContext
     {
-        if (!optionsBuilder.IsConfigured)
+        public Connection() { }
+        public Connection(DbContextOptions<Connection> options) : base(options) { }
+
+        public DbSet<SparePart> SpareParts { get; set; }
+        public DbSet<Mechanic> Mechanics { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Repair> Repairs { get; set; }
+        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+        public DbSet<Seller> Sellers { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Persist Security Info=False;Trusted_Connection=True;database=Mecanico;server=(local);TrustServerCertificate=True");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Persist Security Info=False;Trusted_Connection=True;database=Mechanic;server=(local);TrustServerCertificate=True");
+            }
         }
-    }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Vehiculo>()
-            .HasOne(v => v.Cliente)
-            .WithMany(c => c.Vehiculos)
-            .HasForeignKey(v => v.IdCliente);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Vehicle>()
+                .HasOne(v => v.Customer)
+                .WithMany(c => c.Vehicles)
+                .HasForeignKey(v => v.CustomerId);
 
-        modelBuilder.Entity<Reparacion>()
-            .HasOne(r => r.Vehiculo)
-            .WithMany(v => v.Reparaciones)
-            .HasForeignKey(r => r.PlacaVehiculo);
+            modelBuilder.Entity<Repair>()
+                .HasOne(r => r.Vehicle)
+                .WithMany(v => v.Repairs)
+                .HasForeignKey(r => r.VehicleLicensePlate);
 
-        modelBuilder.Entity<Reparacion>()
-            .HasOne(r => r.Mecanico)
-            .WithMany(m => m.Reparaciones)
-            .HasForeignKey(r => r.IdMecanico);
+            modelBuilder.Entity<Repair>()
+                .HasOne(r => r.Mechanic)
+                .WithMany(m => m.Repairs)
+                .HasForeignKey(r => r.MechanicId);
+        }
     }
 }

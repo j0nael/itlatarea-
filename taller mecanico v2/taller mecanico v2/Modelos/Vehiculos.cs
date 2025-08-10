@@ -1,27 +1,26 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
-public class Vehiculo
+public class Vehicle
 {
     [Key]
-  
-    public string Placa { get; set; }
-    public string Marca { get; set; }
-    public string Modelo { get; set; }
-    public int Año { get; set; }
-    public int IdCliente { get; set; }
+    public string LicensePlate { get; set; }       // Placa
+    public string Brand { get; set; }              // Marca
+    public string Model { get; set; }              // Modelo
+    public int Year { get; set; }                  // Año
+    public int CustomerId { get; set; }            // IdCliente
 
-  
-    public Cliente Cliente { get; set; }
+    public Customer Customer { get; set; }         // Cliente
 
-    public List<Reparacion> Reparaciones { get; set; }
+    public List<Repair> Repairs { get; set; }      // Reparaciones
 
-    public Vehiculo(string placa, string marca, string modelo, int año, int idCliente)
+    public Vehicle(string licensePlate, string brand, string model, int year, int customerId)
     {
-        this.Placa = placa;
-        this.Marca = marca;
-        this.Modelo = modelo;
-        this.Año = año;
-        this.IdCliente = idCliente;
+        this.LicensePlate = licensePlate;
+        this.Brand = brand;
+        this.Model = model;
+        this.Year = year;
+        this.CustomerId = customerId;
     }
 }

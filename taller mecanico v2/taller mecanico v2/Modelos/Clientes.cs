@@ -1,25 +1,27 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
-public class Cliente
-    {
-
+public class Customer
+{
     [Key]
     public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Telefono { get; set; }
-        public string Correo { get; set; }
-    public string Apellido { get; set; }
-   
-    public List<Vehiculo> Vehiculos { get; set; }
-    public Cliente(int id, string nombre, string telefono, string correo, string apellido)
+    public string FirstName { get; set; }      // Nombre
+    public string LastName { get; set; }       // Apellido
+    public string PhoneNumber { get; set; }    // Telefono
+    public string Email { get; set; }          // Correo
+    
+
+    public List<Vehicle> Vehicles { get; set; } // Vehiculos
+
+    public Customer(int id, string firstName, string phoneNumber, string email, string lastName)
     {
         this.Id = id;
-        this.Nombre = nombre;
-        this.Telefono = telefono;
-        this.Correo = correo;
-        this.Apellido = apellido;
+        this.FirstName = firstName;
+        this.PhoneNumber = phoneNumber;
+        this.Email = email;
+        this.LastName = lastName;
     }
 
-    public Cliente() { }
-    }
+    public Customer() { }
+}

@@ -2,35 +2,35 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-public class Repuesto
+public class SparePart
 {
     [Key]
     public int Id { get; set; }
 
-    public string Nombre { get; set; }
+    public string Name { get; set; }                 // Nombre
 
-    public int CantidadInicial { get; set; } // Cantidad cuando se agregó
+    public int InitialQuantity { get; set; }         // CantidadInicial (cantidad cuando se agregó)
 
-    public int Cantidad { get; set; } // Stock actual
+    public int Quantity { get; set; }                // Cantidad (stock actual)
 
-    public double PrecioUnitario { get; set; }
+    public double UnitPrice { get; set; }            // PrecioUnitario
 
-    public double PrecioPorMayor { get; set; }
+    public double WholesalePrice { get; set; }       // PrecioPorMayor
 
-    public DateTime FechaIngreso { get; set; } = DateTime.Now;
+    public DateTime EntryDate { get; set; } = DateTime.Now; // FechaIngreso
 
-    // Relación con ventas
-    public List<Venta> Ventas { get; set; } = new();
+    // Relationship with sales
+    public List<Sale> Sales { get; set; } = new();   // Ventas
 
-    public Repuesto() { }
+    public SparePart() { }
 
-    public Repuesto(string nombre, int cantidad, double precioUnitario, double precioPorMayor)
+    public SparePart(string name, int quantity, double unitPrice, double wholesalePrice)
     {
-        Nombre = nombre;
-        Cantidad = cantidad;
-        CantidadInicial = cantidad;
-        PrecioUnitario = precioUnitario;
-        PrecioPorMayor = precioPorMayor;
-        FechaIngreso = DateTime.Now;
+        Name = name;
+        Quantity = quantity;
+        InitialQuantity = quantity;
+        UnitPrice = unitPrice;
+        WholesalePrice = wholesalePrice;
+        EntryDate = DateTime.Now;
     }
 }

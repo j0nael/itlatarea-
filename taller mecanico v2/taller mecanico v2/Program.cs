@@ -1,5 +1,5 @@
 ﻿using System;
-using taller_mecanico_v2;
+using workshop_manager_v2;
 
 class Program
 {
@@ -33,11 +33,11 @@ class Program
                     string opcionMecanico = Console.ReadLine();
                     switch (opcionMecanico)
                     {
-                        case "1": try { MecanicoService.Agregar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "2": try { MecanicoService.VerTodos(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "3": try { MecanicoService.VerPorId(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "4": try { MecanicoService.Actualizar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "5": try { MecanicoService.Eliminar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "1": try { MechanicService.Add(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "2": try { MechanicService.ViewAll(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "3": try { MechanicService.ViewById(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "4": try { MechanicService.Update(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "5": try { MechanicService.Delete(); } catch (Exception ex) { Console.WriteLine(ex); } break;
                         default: Console.WriteLine("Opción inválida."); break;
                     }
                     break;
@@ -54,11 +54,11 @@ class Program
                     string opcionCliente = Console.ReadLine();
                     switch (opcionCliente)
                     {
-                        case "1": try { ClienteService.Agregar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "2": try { ClienteService.Ver(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "3": try { ClienteService.VerPorId(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "4": try { ClienteService.Actualizar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "5": try { ClienteService.Eliminar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "1": try { CustomerService.Add(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "2": try { CustomerService.View(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "3": try { CustomerService.ViewById(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "4": try { CustomerService.Update(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "5": try { CustomerService.Delete(); } catch (Exception ex) { Console.WriteLine(ex); } break;
                         default: Console.WriteLine("Opción inválida."); break;
                     }
                     break;
@@ -75,11 +75,11 @@ class Program
                     string opcionVehiculo = Console.ReadLine();
                     switch (opcionVehiculo)
                     {
-                        case "1": try { VehiculoService.Agregar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "2": try { VehiculoService.Ver(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "3": try { VehiculoService.VerPorplaca(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "4": try { VehiculoService.Actualizar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "5": try { VehiculoService.Eliminar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "1": try { VehicleService.Add(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "2": try { VehicleService.View(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "3": try { VehicleService.ViewByLicensePlate(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "4": try { VehicleService.Update(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "5": try { VehicleService.Delete(); } catch (Exception ex) { Console.WriteLine(ex); } break;
                         default: Console.WriteLine("Opción inválida."); break;
                     }
                     break;
@@ -96,11 +96,11 @@ class Program
                     string opcionReparacion = Console.ReadLine();
                     switch (opcionReparacion)
                     {
-                        case "1": try { ReparacionService.Agregar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "2": try { ReparacionService.Ver(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "3": try { ReparacionService.FiltrarPorFecha(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "4": try { ReparacionService.Actualizar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "5": try { ReparacionService.Eliminar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "1": try { RepairService.Add(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "2": try { RepairService.View(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "3": try { RepairService.FilterByDate(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "4": try { RepairService.Update(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "5": try { RepairService.Delete(); } catch (Exception ex) { Console.WriteLine(ex); } break;
                         default: Console.WriteLine("Opción inválida."); break;
                     }
                     break;
@@ -117,11 +117,11 @@ class Program
                     string opcionRepuesto = Console.ReadLine();
                     switch (opcionRepuesto)
                     {
-                        case "1": try { RepuestoService.Agregar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "2": try { RepuestoService.Ver(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "3": try { RepuestoService.Actualizar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "4": try { RepuestoService.Eliminar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "5": try { RepuestoService.VerHistorialRepuestos(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "1": try { SparePartService.Add(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "2": try { SparePartService.View(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "3": try { SparePartService.Update(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "4": try { SparePartService.Delete(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "5": try { SparePartService.ViewSparePartsHistory(); } catch (Exception ex) { Console.WriteLine(ex); } break;
                         default: Console.WriteLine("Opción inválida."); break;
                     }
                     break;
@@ -139,12 +139,12 @@ class Program
                     string opcionVenta = Console.ReadLine();
                     switch (opcionVenta)
                     {
-                        case "1": try { VentaServicio.Agregar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "2": try { VentaServicio.Ver(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "3": try { VentaServicio.VerPorId(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "4": try { VentaServicio.VerVentasFiltradas(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "5": try { VentaServicio.Actualizar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "6": try { VentaServicio.Eliminar(); } catch (Exception ex) { Console.WriteLine(ex); } break;     
+                        case "1": try { SalesService.AddSale(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "2": try { SalesService.ViewAll(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "3": try { SalesService.ViewById(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "4": try { SalesService.ViewSalesByDateRange(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "5": try { SalesService.Update(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "6": try { SalesService.Delete(); } catch (Exception ex) { Console.WriteLine(ex); } break;     
                         default: Console.WriteLine("Opción inválida."); break;
                     }
                     break;
@@ -160,17 +160,17 @@ class Program
                     string opcionVendedor = Console.ReadLine();
                     switch (opcionVendedor)
                     {
-                        case "1": try { VendedorServicio.Agregar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "2": try { VendedorServicio.VerTodos(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "3": try { VendedorServicio.VerPorId(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "4": try { VendedorServicio.Actualizar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
-                        case "5": try { VendedorServicio.Eliminar(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "1": try { SalespersonService.Add(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "2": try { SalespersonService.ViewAll(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "3": try { SalespersonService.ViewById(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "4": try { SalespersonService.Update(); } catch (Exception ex) { Console.WriteLine(ex); } break;
+                        case "5": try { SalespersonService.Delete(); } catch (Exception ex) { Console.WriteLine(ex); } break;
                         default: Console.WriteLine("Opción inválida."); break;
                     }
                     break;
 
                 case "8":
-                    try { MecanicoService.HistorialServicios(); } catch (Exception ex) { Console.WriteLine(ex); }
+                    try { MechanicService.ServiceHistory(); } catch (Exception ex) { Console.WriteLine(ex); }
                     break;
 
                 case "0":

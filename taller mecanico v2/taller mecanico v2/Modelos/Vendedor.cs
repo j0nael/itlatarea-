@@ -1,22 +1,23 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-public class Vendedor
+public class Seller
 {
     [Key]
     public int Id { get; set; }
-    public string Nombre { get; set; }
-     public string Apellido { get; set; }
-    public string Correo { get; set; }
-public string Telefono { get; set; }
-    public Vendedor() { }
+    public string FirstName { get; set; }   // Nombre
+    public string LastName { get; set; }    // Apellido
+    public string Email { get; set; }       // Correo
+    public string PhoneNumber { get; set; } // Telefono
 
-    public Vendedor(int id, string nombre, string apellido, string correo, string telefono)
+    public Seller() { }
+
+    public Seller(int id, string firstName, string lastName, string email, string phoneNumber)
     {
         this.Id = id;
-        this.Nombre = nombre;
-        this.Apellido = apellido;
-        this.Correo = correo;
-        this.Telefono = telefono;
+        this.FirstName = firstName;
+        this.LastName = lastName;
+        this.Email = email;
+        this.PhoneNumber = phoneNumber;
     }
 }

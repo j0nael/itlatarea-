@@ -1,32 +1,29 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-public class Reparacion
+public class Repair
 {
     [Key]
     public int Id { get; set; }
-    public string PlacaVehiculo { get; set; }
-    public int IdMecanico { get; set; }
+    public string VehicleLicensePlate { get; set; } // PlacaVehiculo
+    public int MechanicId { get; set; }              // IdMecanico
 
-    public string Descripcion { get; set; }
-    public double Costo { get; set; }
-    public DateTime Fecha { get; set; }
-    public Vehiculo Vehiculo { get; set; }
+    public string Description { get; set; }         // Descripcion
+    public double Cost { get; set; }                 // Costo
+    public DateTime Date { get; set; }               // Fecha
+    public Vehicle Vehicle { get; set; }             // Vehiculo
 
-   
-    public Mecanico Mecanico { get; set; }
+    public Mechanic Mechanic { get; set; }           // Mecanico
 
+    public Repair() { }
 
-    public Reparacion() { }
-
-    
-    public Reparacion(int id, string placaVehiculo, int idMecanico, string descripcion, double costo, DateTime fecha)
+    public Repair(int id, string vehicleLicensePlate, int mechanicId, string description, double cost, DateTime date)
     {
         this.Id = id;
-        this.PlacaVehiculo = placaVehiculo;
-        this.IdMecanico = idMecanico;
-        this.Descripcion = descripcion;
-        this.Costo = costo;
-        this.Fecha = fecha;
+        this.VehicleLicensePlate = vehicleLicensePlate;
+        this.MechanicId = mechanicId;
+        this.Description = description;
+        this.Cost = cost;
+        this.Date = date;
     }
 }

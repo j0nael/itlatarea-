@@ -1,65 +1,67 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-public class Factura
+using System.Collections.Generic;
+
+public class Invoice
 {
     [Key]
     public int Id { get; set; }
 
-    public Cliente Cliente { get; set; }
-    public Vendedor Vendedor { get; set; } 
+    public Customer Customer { get; set; }       // Cliente
+    public Seller Seller { get; set; }           // Vendedor
 
-    public DateTime Fecha { get; set; }
+    public DateTime Date { get; set; }           // Fecha
 
-    public List<Venta> DetallesVenta { get; set; }
+    public List<Sale> SaleDetails { get; set; }  // DetallesVenta
 
     public double Total
     {
         get
         {
             double total = 0;
-            foreach (var venta in DetallesVenta)
+            foreach (var sale in SaleDetails)
             {
-                total += venta.Total;
+                total += sale.Total;
             }
             return total;
         }
     }
 
-    public Factura()
+    public Invoice()
     {
-        DetallesVenta = new List<Venta>();
-        Fecha = DateTime.Now;
+        SaleDetails = new List<Sale>();
+        Date = DateTime.Now;
     }
 
-    public Factura(int id, Cliente cliente, Vendedor vendedor)
+    public Invoice(int id, Customer customer, Seller seller)
     {
         this.Id = id;
-        this.Cliente = cliente;
-        this.Vendedor = vendedor;
-        this.Fecha = DateTime.Now;
-        this.DetallesVenta = new List<Venta>();
+        this.Customer = customer;
+        this.Seller = seller;
+        this.Date = DateTime.Now;
+        this.SaleDetails = new List<Sale>();
     }
 
-    public void AgregarVenta(Venta venta)
+    public void AddSale(Sale sale)
     {
-        DetallesVenta.Add(venta);
+        SaleDetails.Add(sale);
     }
 
-    public string MostrarFactura()
+    public string ShowInvoice()
     {
-        string detalle = $"--- FACTURA #{Id} ---\n" +
-                         $"Fecha: {Fecha}\n" +
-                         $"Cliente: {Cliente.Nombre}\n" +
-                         $"Vendedor: {Vendedor.Nombre}\n\n" +
-                         $"DETALLES:\n";
+        string details = $"--- INVOICE #{Id} ---\n" +
+                         $"Date: {Date}\n" +
+                         $"Customer: {Customer.FirstName}\n" +
+                         $"Seller: {Seller.FirstName}\n\n" +
+                         $"DETAILS:\n";
 
-        foreach (var venta in DetallesVenta)
+        foreach (var sale in SaleDetails)
         {
-            detalle += $"- {venta.Cantidad} x {venta.Repuesto.Nombre} @ {venta.Repuesto.PrecioUnitario:C} = {venta.Total:C}\n";
+            details += $"- {sale.Quantity} x {sale.SparePart.Name} @ {sale.SparePart.UnitPrice:C} = {sale.Total:C}\n";
         }
 
-        detalle += $"\nTOTAL: {Total:C}";
+        details += $"\nTOTAL: {Total:C}";
 
-        return detalle;
+        return details;
     }
 }

@@ -1,155 +1,148 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using taller_mecanico_v2.dbcontext;
+using workshop_manager_v2.dbcontext;
+using System;
+using System.Linq;
 
-namespace taller_mecanico_v2
+namespace workshop_manager_v2
 {
-    public class MecanicoService
+    public class MechanicService
     {
-        public static void HistorialServicios()
+        public static void ServiceHistory()
         {
-            using var db = new Conexion();
+            using var db = new Connection();
 
-            Console.Write("Ingrese la fecha para buscar: ");
-            if (!DateTime.TryParse(Console.ReadLine(), out DateTime fechaFiltro))
+            Console.Write("Enter the date to search: ");
+            if (!DateTime.TryParse(Console.ReadLine(), out DateTime filterDate))
             {
-                Console.WriteLine("Fecha inválida.");
+                Console.WriteLine("Invalid date.");
                 return;
             }
 
-            var historial = db.Reparaciones
-                .Include(r => r.Mecanico)
-                .Include(r => r.Vehiculo)
-                .Where(r => r.Fecha.Date == fechaFiltro.Date)
+            var history = db.Repairs
+                .Include(r => r.Mechanic)
+                .Include(r => r.Vehicle)
+                .Where(r => r.Date.Date == filterDate.Date)
                 .ToList();
 
-            if (historial.Count == 0)
+            if (history.Count == 0)
             {
-                Console.WriteLine("No se encontraron reparaciones para esa fecha.");
+                Console.WriteLine("No repairs found for that date.");
                 return;
             }
 
-            foreach (var r in historial)
+            foreach (var r in history)
             {
-                Console.WriteLine($"ID Reparación: {r.Id} | Mecánico: {r.Mecanico.Nombre} | Vehículo: {r.Vehiculo.Marca} {r.Vehiculo.Modelo} | Descripción: {r.Descripcion} | Fecha: {r.Fecha:yyyy-MM-dd}");
+                Console.WriteLine($"Repair ID: {r.Id} | Mechanic: {r.Mechanic.FirstName} | Vehicle: {r.Vehicle.Brand} {r.Vehicle.Model} | Description: {r.Description} | Date: {r.Date:yyyy-MM-dd}");
             }
         }
 
-
-        public static void Agregar()
+        public static void Add()
         {
-            Console.WriteLine("Ingrese el nombre del mecánico:");
-            string nombre = Console.ReadLine() ?? "SinNombre";
+            Console.WriteLine("Enter mechanic's first name:");
+            string firstName = Console.ReadLine() ?? "NoName";
 
-            Console.WriteLine("Ingrese la especialidad del mecánico:");
-            string especialidad = Console.ReadLine() ?? "SinEspecialidad";
+            Console.WriteLine("Enter mechanic's specialty:");
+            string specialty = Console.ReadLine() ?? "NoSpecialty";
 
-            Mecanico mecanico = new Mecanico(nombre, especialidad);
+            Mechanic mechanic = new Mechanic(firstName, specialty);
 
-            using var conexion = new Conexion(new DbContextOptionsBuilder<Conexion>().Options);
-            conexion.Mecanicos.Add(mecanico);
-            conexion.SaveChanges();
-           
-            Console.WriteLine("Mecánico agregado correctamente.");
+            using var connection = new Connection(new DbContextOptionsBuilder<Connection>().Options);
+            connection.Mechanics.Add(mechanic);
+            connection.SaveChanges();
+
+            Console.WriteLine("Mechanic added successfully.");
         }
 
-        public static void VerTodos()
+        public static void ViewAll()
         {
-            using var conexion = new Conexion(new DbContextOptionsBuilder<Conexion>().Options);
-            var mecanicos = conexion.Mecanicos.ToList();
+            using var connection = new Connection(new DbContextOptionsBuilder<Connection>().Options);
+            var mechanics = connection.Mechanics.ToList();
 
-            Console.WriteLine("=== Lista de Mecánicos ===");
-            foreach (var m in mecanicos)
+            Console.WriteLine("=== List of Mechanics ===");
+            foreach (var m in mechanics)
             {
-                Console.WriteLine($"ID: {m.Id}, Nombre: {m.Nombre}, Especialidad: {m.Especialidad}");
+                Console.WriteLine($"ID: {m.Id}, First Name: {m.FirstName}, Specialty: {m.Specialty}");
             }
         }
 
-        public static void VerPorId()
+        public static void ViewById()
         {
-            using var conexion = new Conexion(new DbContextOptionsBuilder<Conexion>().Options);
+            using var connection = new Connection(new DbContextOptionsBuilder<Connection>().Options);
 
-            Console.Write("Ingrese el ID del mecánico a consultar: ");
+            Console.Write("Enter the mechanic ID to consult: ");
             if (int.TryParse(Console.ReadLine(), out int id))
             {
-                var mecanico = conexion.Mecanicos.Find(id);
-                if (mecanico != null)
+                var mechanic = connection.Mechanics.Find(id);
+                if (mechanic != null)
                 {
-                    Console.WriteLine("=== Información del Mecánico ===");
-                    Console.WriteLine($"ID: {mecanico.Id}");
-                    Console.WriteLine($"Nombre: {mecanico.Nombre}");
-                    Console.WriteLine($"Especialidad: {mecanico.Especialidad}");
+                    Console.WriteLine("=== Mechanic Information ===");
+                    Console.WriteLine($"ID: {mechanic.Id}");
+                    Console.WriteLine($"First Name: {mechanic.FirstName}");
+                    Console.WriteLine($"Specialty: {mechanic.Specialty}");
                 }
                 else
                 {
-                    Console.WriteLine("Mecánico no encontrado.");
+                    Console.WriteLine("Mechanic not found.");
                 }
             }
             else
             {
-                Console.WriteLine("ID inválido.");
+                Console.WriteLine("Invalid ID.");
             }
         }
 
-
-        public static void Actualizar()
+        public static void Update()
         {
-            Console.Write("ID del mecánico a actualizar: ");
+            Console.Write("Mechanic ID to update: ");
             if (!int.TryParse(Console.ReadLine(), out int id))
             {
-                Console.WriteLine("ID inválido.");
+                Console.WriteLine("Invalid ID.");
                 return;
             }
 
-            using var db = new Conexion();
-            var m = db.Mecanicos.Find(id);
+            using var db = new Connection();
+            var mechanic = db.Mechanics.Find(id);
 
-            if (m == null)
+            if (mechanic == null)
             {
-                Console.WriteLine("Mecánico no encontrado.");
+                Console.WriteLine("Mechanic not found.");
                 return;
             }
 
-            Console.Write($"Nombre actual: {m.Nombre}. Nuevo nombre: ");
-            string nombre = Console.ReadLine();
-            m.Nombre = string.IsNullOrEmpty(nombre) ? m.Nombre : nombre;
+            Console.Write("Current first name: {mechanic.FirstName}. New first name: ");
+            string firstName = Console.ReadLine();
+            mechanic.FirstName = string.IsNullOrEmpty(firstName) ? mechanic.FirstName : firstName;
 
-            Console.Write($"Especialidad actual: {m.Especialidad}. Nueva especialidad: ");
-            string especialidad = Console.ReadLine();
-            m.Especialidad = string.IsNullOrEmpty(especialidad) ? m.Especialidad : especialidad;
+            Console.Write("Current specialty: {mechanic.Specialty}. New specialty: ");
+            string specialty = Console.ReadLine();
+            mechanic.Specialty = string.IsNullOrEmpty(specialty) ? mechanic.Specialty : specialty;
 
             db.SaveChanges();
-            Console.WriteLine("Mecánico actualizado.");
+            Console.WriteLine("Mechanic updated.");
         }
 
-
-
-        public static void Eliminar()
+        public static void Delete()
         {
-            using var conexion = new Conexion(new DbContextOptionsBuilder<Conexion>().Options);
-            Console.Write("Ingrese el ID del mecánico a eliminar: ");
+            using var connection = new Connection(new DbContextOptionsBuilder<Connection>().Options);
+            Console.Write("Enter the mechanic ID to delete: ");
             if (int.TryParse(Console.ReadLine(), out int id))
             {
-                var mecanico = conexion.Mecanicos.Find(id);
-                if (mecanico != null)
+                var mechanic = connection.Mechanics.Find(id);
+                if (mechanic != null)
                 {
-                    conexion.Mecanicos.Remove(mecanico);
-                    conexion.SaveChanges();
-                    Console.WriteLine("Mecánico eliminado.");
+                    connection.Mechanics.Remove(mechanic);
+                    connection.SaveChanges();
+                    Console.WriteLine("Mechanic deleted.");
                 }
                 else
                 {
-                    Console.WriteLine("Mecánico no encontrado.");
+                    Console.WriteLine("Mechanic not found.");
                 }
             }
             else
             {
-                Console.WriteLine("ID inválido.");
+                Console.WriteLine("Invalid ID.");
             }
         }
     }
-
-
-
-
 }
-

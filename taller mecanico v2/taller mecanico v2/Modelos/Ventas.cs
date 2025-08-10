@@ -1,50 +1,49 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-public class Venta
+public class Sale
 {
     [Key]
     public int Id { get; set; }
 
     [Required]
-    public Cliente Cliente { get; set; }
+    public Customer Customer { get; set; } // Cliente
 
     [Required]
-    public Vendedor Vendedor { get; set; }
+    public Seller Seller { get; set; }     // Vendedor
 
     [Required]
-    public Repuesto Repuesto { get; set; }
+    public SparePart SparePart { get; set; } // Repuesto
 
     [Range(1, int.MaxValue)]
-    public int Cantidad { get; set; }
+    public int Quantity { get; set; } // Cantidad
 
-    public double PrecioUnitario { get; set; } 
+    public double UnitPrice { get; set; }  // PrecioUnitario
 
-    public double Total => PrecioUnitario * Cantidad;
+    public double Total => UnitPrice * Quantity;
 
-    public DateTime Fecha { get; set; }
+    public DateTime Date { get; set; } // Fecha
 
-    public Venta() { }
+    public Sale() { }
 
-    public Venta(Cliente cliente, Vendedor vendedor, Repuesto repuesto, int cantidad)
+    public Sale(Customer customer, Seller seller, SparePart sparePart, int quantity)
     {
-        Cliente = cliente;
-        Vendedor = vendedor;
-        Repuesto = repuesto;
-        Cantidad = cantidad;
-        PrecioUnitario = repuesto.PrecioUnitario; // Precio congelado al momento de la venta
-        Fecha = DateTime.Now;
-
+        Customer = customer;
+        Seller = seller;
+        SparePart = sparePart;
+        Quantity = quantity;
+        UnitPrice = sparePart.UnitPrice; // Price frozen at the time of sale
+        Date = DateTime.Now;
     }
 
-    public string MostrarDetalle()
+    public string ShowDetail()
     {
-        return $"VENTA #{Id} - {Fecha:dd/MM/yyyy HH:mm}\n" +
-               $"Cliente: {Cliente.Nombre}\n" +
-               $"Vendedor: {Vendedor.Nombre}\n" +
-               $"Repuesto: {Repuesto.Nombre}\n" +
-               $"Cantidad: {Cantidad}\n" +
-               $"Precio Unitario: {PrecioUnitario:C}\n" +
+        return $"SALE #{Id} - {Date:dd/MM/yyyy HH:mm}\n" +
+               $"Customer: {Customer.FirstName}\n" +
+               $"Seller: {Seller.FirstName}\n" +
+               $"Spare Part: {SparePart.Name}\n" +
+               $"Quantity: {Quantity}\n" +
+               $"Unit Price: {UnitPrice:C}\n" +
                $"Total: {Total:C}";
     }
 }

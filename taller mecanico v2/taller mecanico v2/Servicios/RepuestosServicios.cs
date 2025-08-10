@@ -1,126 +1,123 @@
 ﻿using System;
 using System.Linq;
-using taller_mecanico_v2.dbcontext;
+using workshop_manager_v2.dbcontext;
 
-public class RepuestoService
+public class SparePartService
 {
-    public static void VerHistorialRepuestos()
+    public static void ViewSparePartsHistory()
     {
-        using var db = new Conexion();
+        using var db = new Connection();
 
-        var repuestos = db.Repuestos.ToList();
+        var spareParts = db.SpareParts.ToList();
 
-        if (!repuestos.Any())
+        if (!spareParts.Any())
         {
-            Console.WriteLine("No hay repuestos registrados.");
+            Console.WriteLine("No spare parts registered.");
             return;
         }
 
-        Console.WriteLine("=== HISTORIAL DE REPUESTOS ===");
+        Console.WriteLine("=== SPARE PARTS HISTORY ===");
 
-        foreach (var repuesto in repuestos)
+        foreach (var sparePart in spareParts)
         {
-            var ventas = db.Ventas.Where(v => v.Repuesto.Id == repuesto.Id).ToList();
-            int vendidos = ventas.Sum(v => v.Cantidad);
-            double totalVendido = ventas.Sum(v => v.Total);
-            double valorInventario = repuesto.Cantidad * repuesto.PrecioUnitario;
+            var sales = db.Sales.Where(v => v.SparePart.Id == sparePart.Id).ToList();
+            int soldQuantity = sales.Sum(v => v.Quantity);
+            double totalSoldValue = sales.Sum(v => v.Total);
+            double inventoryValue = sparePart.Quantity * sparePart.UnitPrice;
 
-            Console.WriteLine($"\nRepuesto: {repuesto.Nombre}");
-            Console.WriteLine($"- En Stock: {repuesto.Cantidad}");
-            Console.WriteLine($"- Precio Unitario: {repuesto.PrecioUnitario}");
-            Console.WriteLine($"- Precio por Mayor: {repuesto.PrecioPorMayor}");
-            Console.WriteLine($"- Vendidos: {vendidos}");
-            Console.WriteLine($"- Valor en Inventario: {valorInventario}");
-            Console.WriteLine($"- Valor Total Vendido: {totalVendido}");
+            Console.WriteLine($"\nSpare Part: {sparePart.Name}");
+            Console.WriteLine($"- In Stock: {sparePart.Quantity}");
+            Console.WriteLine($"- Unit Price: {sparePart.UnitPrice}");
+            Console.WriteLine($"- Wholesale Price: {sparePart.WholesalePrice}");
+            Console.WriteLine($"- Sold Quantity: {soldQuantity}");
+            Console.WriteLine($"- Inventory Value: {inventoryValue}");
+            Console.WriteLine($"- Total Sold Value: {totalSoldValue}");
         }
     }
 
-    public static void Agregar()
+    public static void Add()
     {
-        Console.Write("Nombre del repuesto: ");
-        string nombre = Console.ReadLine();
-        Console.Write("Cantidad: ");
-        int cantidad = int.Parse(Console.ReadLine());
-        Console.Write("Precio unitario: ");
-        double precioUnitario = double.Parse(Console.ReadLine());
-        Console.Write("Precio por mayor: ");
-        double precioPorMayor = double.Parse(Console.ReadLine());
+        Console.Write("Spare part name: ");
+        string name = Console.ReadLine();
+        Console.Write("Quantity: ");
+        int quantity = int.Parse(Console.ReadLine());
+        Console.Write("Unit price: ");
+        double unitPrice = double.Parse(Console.ReadLine());
+        Console.Write("Wholesale price: ");
+        double wholesalePrice = double.Parse(Console.ReadLine());
 
-        var repuesto = new Repuesto(nombre, cantidad, precioUnitario, precioPorMayor);
+        var sparePart = new SparePart(name, quantity, unitPrice, wholesalePrice);
 
-        using var db = new Conexion();
-        db.Repuestos.Add(repuesto);
+        using var db = new Connection();
+        db.SpareParts.Add(sparePart);
         db.SaveChanges();
 
-        Console.WriteLine("Repuesto agregado.");
+        Console.WriteLine("Spare part added.");
     }
 
-    public static void Ver()
+    public static void View()
     {
-        using var db = new Conexion();
-        var lista = db.Repuestos.ToList();
+        using var db = new Connection();
+        var list = db.SpareParts.ToList();
 
-        foreach (var r in lista)
+        foreach (var sp in list)
         {
-            Console.WriteLine($"ID: {r.Id}, Nombre: {r.Nombre}, Cantidad: {r.Cantidad}, Precio Unitario: {r.PrecioUnitario}, Precio Por Mayor: {r.PrecioPorMayor}");
+            Console.WriteLine($"ID: {sp.Id}, Name: {sp.Name}, Quantity: {sp.Quantity}, Unit Price: {sp.UnitPrice}, Wholesale Price: {sp.WholesalePrice}");
         }
     }
 
-    public static void Actualizar()
+    public static void Update()
     {
-        Console.Write("ID de la reparación a actualizar: ");
+        Console.Write("ID of the repair to update: ");
         if (!int.TryParse(Console.ReadLine(), out int id))
         {
-            Console.WriteLine("ID inválido.");
+            Console.WriteLine("Invalid ID.");
             return;
         }
 
-        using var db = new Conexion();
-        var r = db.Reparaciones.Find(id);
+        using var db = new Connection();
+        var repair = db.Repairs.Find(id);
 
-        if (r == null)
+        if (repair == null)
         {
-            Console.WriteLine("Reparación no encontrada.");
+            Console.WriteLine("Repair not found.");
             return;
         }
 
-        Console.Write($"Descripción actual: {r.Descripcion}. Nueva descripción: ");
-        string descripcion = Console.ReadLine();
-        r.Descripcion = string.IsNullOrEmpty(descripcion) ? r.Descripcion : descripcion;
+        Console.Write($"Current description: {repair.Description}. New description: ");
+        string description = Console.ReadLine();
+        repair.Description = string.IsNullOrEmpty(description) ? repair.Description : description;
 
-        Console.Write($"Fecha actual: {r.Fecha.ToShortDateString()}. Nueva fecha (yyyy-MM-dd): ");
-        string fechaInput = Console.ReadLine();
-        if (DateTime.TryParse(fechaInput, out DateTime nuevaFecha))
-            r.Fecha = nuevaFecha;
+        Console.Write($"Current date: {repair.Date.ToShortDateString()}. New date (yyyy-MM-dd): ");
+        string dateInput = Console.ReadLine();
+        if (DateTime.TryParse(dateInput, out DateTime newDate))
+            repair.Date = newDate;
 
-        Console.Write($"Costo actual: {r.Costo}. Nuevo costo: ");
-        string costoInput = Console.ReadLine();
-        if (double.TryParse(costoInput, out double nuevoCosto))
-            r.Costo = nuevoCosto;
+        Console.Write($"Current cost: {repair.Cost}. New cost: ");
+        string costInput = Console.ReadLine();
+        if (double.TryParse(costInput, out double newCost))
+            repair.Cost = newCost;
 
         db.SaveChanges();
-        Console.WriteLine("Reparación actualizada.");
+        Console.WriteLine("Repair updated.");
     }
 
-
-
-
-    public static void Eliminar()
+    public static void Delete()
     {
-        Console.Write("ID del repuesto a eliminar: ");
+        Console.Write("ID of the spare part to delete: ");
         int id = int.Parse(Console.ReadLine());
 
-        using var db = new Conexion();
-        var r = db.Repuestos.Find(id);
+        using var db = new Connection();
+        var sp = db.SpareParts.Find(id);
 
-        if (r == null)
+        if (sp == null)
         {
-            Console.WriteLine("Repuesto no encontrado.");
+            Console.WriteLine("Spare part not found.");
             return;
         }
 
-        db.Repuestos.Remove(r);
+        db.SpareParts.Remove(sp);
         db.SaveChanges();
-        Console.WriteLine("Repuesto eliminado.");
+        Console.WriteLine("Spare part deleted.");
     }
 }

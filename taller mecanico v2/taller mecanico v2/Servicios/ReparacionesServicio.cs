@@ -1,122 +1,123 @@
 ﻿using System;
 using System.Linq;
-using taller_mecanico_v2.dbcontext;
+using workshop_manager_v2.dbcontext;
 
-public class ReparacionService
+public class RepairService
 {
-    public static void Agregar()
+    public static void Add()
     {
-        Console.Write("Placa del vehículo: ");
-        string placa = Console.ReadLine();
-        Console.Write("ID del mecánico: ");
-        int idMecanico = int.Parse(Console.ReadLine());
-        Console.Write("Descripción: ");
-        string descripcion = Console.ReadLine();
-        Console.Write("Costo: ");
-        double costo = double.Parse(Console.ReadLine());
-        DateTime fecha = DateTime.Now;
+        Console.Write("Vehicle license plate: ");
+        string licensePlate = Console.ReadLine();
+        Console.Write("Mechanic ID: ");
+        int mechanicId = int.Parse(Console.ReadLine());
+        Console.Write("Description: ");
+        string description = Console.ReadLine();
+        Console.Write("Cost: ");
+        double cost = double.Parse(Console.ReadLine());
+        DateTime date = DateTime.Now;
 
-        var reparacion = new Reparacion(0, placa, idMecanico, descripcion, costo, fecha);
+        var repair = new Repair(0, licensePlate, mechanicId, description, cost, date);
 
-        using var db = new Conexion();
-        db.Reparaciones.Add(reparacion);
+        using var db = new Connection();
+        db.Repairs.Add(repair);
         db.SaveChanges();
 
-        Console.WriteLine("Repacion agregada.");
+        Console.WriteLine("Repair added.");
     }
 
-    public static void Ver()
+    public static void View()
     {
-        using var db = new Conexion();
-        var lista = db.Reparaciones.ToList();
+        using var db = new Connection();
+        var list = db.Repairs.ToList();
 
-        foreach (var r in lista)
+        foreach (var r in list)
         {
-            Console.WriteLine($"ID: {r.Id}, Placa: {r.PlacaVehiculo}, Mecánico: {r.IdMecanico}, Descripción: {r.Descripcion}, Costo: {r.Costo}, Fecha: {r.Fecha.ToShortDateString()}");
+            Console.WriteLine($"ID: {r.Id}, License Plate: {r.VehicleLicensePlate}, Mechanic ID: {r.MechanicId}, Description: {r.Description}, Cost: {r.Cost}, Date: {r.Date.ToShortDateString()}");
         }
     }
-    public static void FiltrarPorFecha()
-    {
-        Console.Write("Fecha de inicio (yyyy-MM-dd): ");
-        var fechaInicioInput = Console.ReadLine();
-        Console.Write("Fecha de fin (yyyy-MM-dd): ");
-        var fechaFinInput = Console.ReadLine();
 
-        if (!DateTime.TryParse(fechaInicioInput, out DateTime fechaInicio) ||
-            !DateTime.TryParse(fechaFinInput, out DateTime fechaFin))
+    public static void FilterByDate()
+    {
+        Console.Write("Start date (yyyy-MM-dd): ");
+        var startDateInput = Console.ReadLine();
+        Console.Write("End date (yyyy-MM-dd): ");
+        var endDateInput = Console.ReadLine();
+
+        if (!DateTime.TryParse(startDateInput, out DateTime startDate) ||
+            !DateTime.TryParse(endDateInput, out DateTime endDate))
         {
-            Console.WriteLine("Una o ambas fechas son inválidas.");
+            Console.WriteLine("One or both dates are invalid.");
             return;
         }
 
-        using var db = new Conexion();
-        var reparaciones = db.Reparaciones
-            .Where(r => r.Fecha.Date >= fechaInicio.Date && r.Fecha.Date <= fechaFin.Date)
+        using var db = new Connection();
+        var repairs = db.Repairs
+            .Where(r => r.Date.Date >= startDate.Date && r.Date.Date <= endDate.Date)
             .ToList();
 
-        if (reparaciones.Count == 0)
+        if (repairs.Count == 0)
         {
-            Console.WriteLine("No se encontraron reparaciones en ese rango de fechas.");
+            Console.WriteLine("No repairs found in that date range.");
             return;
         }
 
-        Console.WriteLine("=== Reparaciones encontradas ===");
-        foreach (var r in reparaciones)
+        Console.WriteLine("=== Repairs found ===");
+        foreach (var r in repairs)
         {
-            Console.WriteLine($"ID: {r.Id}, Placa: {r.PlacaVehiculo}, Mecánico: {r.IdMecanico}, Descripción: {r.Descripcion}, Costo: {r.Costo}, Fecha: {r.Fecha:yyyy-MM-dd}");
+            Console.WriteLine($"ID: {r.Id}, License Plate: {r.VehicleLicensePlate}, Mechanic ID: {r.MechanicId}, Description: {r.Description}, Cost: {r.Cost}, Date: {r.Date:yyyy-MM-dd}");
         }
     }
 
-    public static void Actualizar()
+    public static void Update()
     {
-        Console.Write("ID de la reparación a actualizar: ");
+        Console.Write("ID of the repair to update: ");
         if (!int.TryParse(Console.ReadLine(), out int id))
         {
-            Console.WriteLine("ID inválido.");
+            Console.WriteLine("Invalid ID.");
             return;
         }
 
-        using var db = new Conexion();
-        var r = db.Reparaciones.Find(id);
+        using var db = new Connection();
+        var r = db.Repairs.Find(id);
 
         if (r == null)
         {
-            Console.WriteLine("Reparación no encontrada.");
+            Console.WriteLine("Repair not found.");
             return;
         }
 
-        Console.Write($"Descripción actual: {r.Descripcion}. Nueva descripción: ");
-        string descripcion = Console.ReadLine();
-        r.Descripcion = string.IsNullOrEmpty(descripcion) ? r.Descripcion : descripcion;
+        Console.Write($"Current description: {r.Description}. New description: ");
+        string description = Console.ReadLine();
+        r.Description = string.IsNullOrEmpty(description) ? r.Description : description;
 
-        Console.Write($"Costo actual: {r.Costo}. Nuevo costo: ");
-        string costoInput = Console.ReadLine();
-        r.Costo = double.TryParse(costoInput, out double nuevoCosto) ? nuevoCosto : r.Costo;
+        Console.Write($"Current cost: {r.Cost}. New cost: ");
+        string costInput = Console.ReadLine();
+        r.Cost = double.TryParse(costInput, out double newCost) ? newCost : r.Cost;
 
-        Console.Write($"Fecha actual: {r.Fecha:yyyy-MM-dd}. Nueva fecha (yyyy-MM-dd): ");
-        string fechaInput = Console.ReadLine();
-        r.Fecha = DateTime.TryParse(fechaInput, out DateTime nuevaFecha) ? nuevaFecha : r.Fecha;
+        Console.Write($"Current date: {r.Date:yyyy-MM-dd}. New date (yyyy-MM-dd): ");
+        string dateInput = Console.ReadLine();
+        r.Date = DateTime.TryParse(dateInput, out DateTime newDate) ? newDate : r.Date;
 
         db.SaveChanges();
-        Console.WriteLine("Reparación actualizada.");
+        Console.WriteLine("Repair updated.");
     }
 
-    public static void Eliminar()
+    public static void Delete()
     {
-        Console.Write("ID de la reparación a eliminar: ");
+        Console.Write("ID of the repair to delete: ");
         int id = int.Parse(Console.ReadLine());
 
-        using var db = new Conexion();
-        var r = db.Reparaciones.Find(id);
+        using var db = new Connection();
+        var r = db.Repairs.Find(id);
 
         if (r == null)
         {
-            Console.WriteLine("No encontrada.");
+            Console.WriteLine("Not found.");
             return;
         }
 
-        db.Reparaciones.Remove(r);
+        db.Repairs.Remove(r);
         db.SaveChanges();
-        Console.WriteLine("Reparación eliminada.");
+        Console.WriteLine("Repair deleted.");
     }
 }

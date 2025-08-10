@@ -1,137 +1,136 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using taller_mecanico_v2.dbcontext;
+using workshop_manager_v2.dbcontext;
 
-public class ClienteService
+public class CustomerService
 {
-
-    public static void VerPorId()
+    public static void ViewById()
     {
-        using var conexion = new Conexion(new DbContextOptionsBuilder<Conexion>().Options);
+        using var db = new Connection(new DbContextOptionsBuilder<Connection>().Options);
 
-        Console.Write("Ingrese el ID del cliente a consultar: ");
+        Console.Write("Enter the customer ID to search: ");
         if (int.TryParse(Console.ReadLine(), out int id))
         {
-            var cliente = conexion.Clientes.Find(id);
-            if (cliente != null)
+            var customer = db.Customers.Find(id);
+            if (customer != null)
             {
-                Console.WriteLine("=== Información del Mecánico ===");
-                Console.WriteLine($"ID: {cliente.Id}");
-                Console.WriteLine($"Nombre: {cliente.Nombre}");
-                Console.WriteLine($"Telefono: {cliente.Apellido}");
-                Console.WriteLine($"Correo: {cliente.Correo}");
-                Console.WriteLine($"Telefono: {cliente.Telefono}");
-                     
+                Console.WriteLine("=== Customer Information ===");
+                Console.WriteLine($"ID: {customer.Id}");
+                Console.WriteLine($"First Name: {customer.FirstName}");
+                Console.WriteLine($"Last Name: {customer.LastName}");
+                Console.WriteLine($"Email: {customer.Email}");
+                Console.WriteLine($"Phone Number: {customer.PhoneNumber}");
             }
             else
             {
-                Console.WriteLine("Cliente no encontrado.");
+                Console.WriteLine("Customer not found.");
             }
         }
         else
         {
-            Console.WriteLine("ID inválido.");
+            Console.WriteLine("Invalid ID.");
         }
     }
 
-
-    public static void Agregar()
+    public static void Add()
     {
-        Console.Write("Nombre: ");
-        string nombre = Console.ReadLine();
-        Console.Write("Apellido: ");
-        string apellido = Console.ReadLine();
-        Console.Write("Teléfono: ");
-        string telefono = Console.ReadLine();
-        Console.Write("Correo: ");
-        string correo = Console.ReadLine();
+        Console.Write("First Name: ");
+        string firstName = Console.ReadLine();
+        Console.Write("Last Name: ");
+        string lastName = Console.ReadLine();
+        Console.Write("Phone Number: ");
+        string phoneNumber = Console.ReadLine();
+        Console.Write("Email: ");
+        string email = Console.ReadLine();
 
+        var customer = new Customer
+        {
+            FirstName = firstName,
+            LastName = lastName,
+            PhoneNumber = phoneNumber,
+            Email = email
+        };
 
-        var cliente = new Cliente { Nombre = nombre, Telefono = telefono, Correo = correo,Apellido=apellido };
-
-        using var db = new Conexion();
-        db.Clientes.Add(cliente);
+        using var db = new Connection();
+        db.Customers.Add(customer);
         db.SaveChanges();
 
-        Console.WriteLine("Cliente agregado.");
+        Console.WriteLine("Customer added.");
     }
 
-    public static void Ver()
+    public static void View()
     {
         try
         {
-            using var db = new Conexion();
-            var clientes = db.Clientes.ToList();
+            using var db = new Connection();
+            var customers = db.Customers.ToList();
 
-            foreach (var c in clientes)
+            foreach (var c in customers)
             {
-                Console.WriteLine($"ID: {c.Id}, Nombre: {c.Nombre}, Apellido{c.Apellido},Tel: {c.Telefono}, Correo: {c.Correo}");
+                Console.WriteLine($"ID: {c.Id}, First Name: {c.FirstName}, Last Name: {c.LastName}, Phone Number: {c.PhoneNumber}, Email: {c.Email}");
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-
         }
-
     }
 
-    public static void Actualizar()
+    public static void Update()
     {
-        Console.Write("ID del cliente a actualizar: ");
+        Console.Write("ID of the customer to update: ");
         if (!int.TryParse(Console.ReadLine(), out int id))
         {
-            Console.WriteLine("ID inválido.");
+            Console.WriteLine("Invalid ID.");
             return;
         }
 
-        using var db = new Conexion();
-        var cliente = db.Clientes.Find(id);
+        using var db = new Connection();
+        var customer = db.Customers.Find(id);
 
-        if (cliente == null)
+        if (customer == null)
         {
-            Console.WriteLine("Cliente no encontrado.");
+            Console.WriteLine("Customer not found.");
             return;
         }
 
-        Console.Write($"Nombre actual: {cliente.Nombre}. Nuevo nombre: ");
-        string nombre = Console.ReadLine();
-        cliente.Nombre = string.IsNullOrEmpty(nombre) ? cliente.Nombre : nombre;
+        Console.Write($"Current first name: {customer.FirstName}. New first name: ");
+        string firstName = Console.ReadLine();
+        customer.FirstName = string.IsNullOrEmpty(firstName) ? customer.FirstName : firstName;
 
-        Console.Write($"Nombre actual: {cliente.Apellido}. Nuevo apellido: ");
-        string apellido = Console.ReadLine();
-        cliente.Apellido = string.IsNullOrEmpty(apellido) ? cliente.Apellido : apellido;
+        Console.Write($"Current last name: {customer.LastName}. New last name: ");
+        string lastName = Console.ReadLine();
+        customer.LastName = string.IsNullOrEmpty(lastName) ? customer.LastName : lastName;
 
-        Console.Write($"Teléfono actual: {cliente.Telefono}. Nuevo teléfono: ");
-        string telefono = Console.ReadLine();
-        cliente.Telefono = string.IsNullOrEmpty(telefono) ? cliente.Telefono : telefono;
+        Console.Write($"Current phone number: {customer.PhoneNumber}. New phone number: ");
+        string phoneNumber = Console.ReadLine();
+        customer.PhoneNumber = string.IsNullOrEmpty(phoneNumber) ? customer.PhoneNumber : phoneNumber;
 
-        Console.Write($"Correo actual: {cliente.Correo}. Nuevo correo: ");
-        string correo = Console.ReadLine();
-        cliente.Correo = string.IsNullOrEmpty(correo) ? cliente.Correo : correo;
+        Console.Write($"Current email: {customer.Email}. New email: ");
+        string email = Console.ReadLine();
+        customer.Email = string.IsNullOrEmpty(email) ? customer.Email : email;
 
         db.SaveChanges();
-        Console.WriteLine("Cliente actualizado.");
+        Console.WriteLine("Customer updated.");
     }
 
-
-    public static void Eliminar()
+    public static void Delete()
     {
-        Console.Write("ID del cliente a eliminar: ");
+        Console.Write("ID of the customer to delete: ");
         int id = int.Parse(Console.ReadLine());
 
-        using var db = new Conexion();
-        var cliente = db.Clientes.Find(id);
+        using var db = new Connection();
+        var customer = db.Customers.Find(id);
 
-        if (cliente == null)
+        if (customer == null)
         {
-            Console.WriteLine("Cliente no encontrado.");
+            Console.WriteLine("Customer not found.");
             return;
         }
 
-        db.Clientes.Remove(cliente);
+        db.Customers.Remove(customer);
         db.SaveChanges();
-        Console.WriteLine("Cliente eliminado.");
+        Console.WriteLine("Customer deleted.");
     }
 }

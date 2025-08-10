@@ -1,250 +1,250 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using taller_mecanico_v2.dbcontext;
+using workshop_manager_v2.dbcontext;
 
-public class VentaServicio
+
+public class SalesService
 {
-    public static void VerVentasFiltradas()
+    public static void ViewSalesByDateRange()
     {
-        using var db = new Conexion();
+        using var db = new Connection();
 
-        Console.WriteLine("Filtrar ventas por rango de fechas");
+        Console.WriteLine("Filter sales by date range");
 
-        Console.Write("Fecha inicio (yyyy-MM-dd): ");
-        if (!DateTime.TryParse(Console.ReadLine(), out DateTime fechaInicio))
+        Console.Write("Start date (yyyy-MM-dd): ");
+        if (!DateTime.TryParse(Console.ReadLine(), out DateTime startDate))
         {
-            Console.WriteLine("Fecha inicio inválida.");
+            Console.WriteLine("Invalid start date.");
             return;
         }
 
-        Console.Write("Fecha fin (yyyy-MM-dd): ");
-        if (!DateTime.TryParse(Console.ReadLine(), out DateTime fechaFin))
+        Console.Write("End date (yyyy-MM-dd): ");
+        if (!DateTime.TryParse(Console.ReadLine(), out DateTime endDate))
         {
-            Console.WriteLine("Fecha fin inválida.");
+            Console.WriteLine("Invalid end date.");
             return;
         }
 
-        fechaFin = fechaFin.Date.AddDays(1).AddTicks(-1); 
+        endDate = endDate.Date.AddDays(1).AddTicks(-1);
 
-        var ventas = db.Ventas
-            .Include(v => v.Cliente)
-            .Include(v => v.Vendedor)
-            .Include(v => v.Repuesto)
-            .Where(v => v.Fecha >= fechaInicio && v.Fecha <= fechaFin)
+        var sales = db.Sales
+            .Include(s => s.Customer)
+            .Include(s => s.Seller)
+            .Include(s => s.SparePart)
+            .Where(s => s.Date >= startDate && s.Date <= endDate)
             .ToList();
 
-        if (ventas.Count == 0)
+        if (sales.Count == 0)
         {
-            Console.WriteLine("No se encontraron ventas para el rango de fechas seleccionado.");
+            Console.WriteLine("No sales found in the selected date range.");
             return;
         }
 
-        foreach (var v in ventas)
+        foreach (var s in sales)
         {
-          double total = v.Repuesto.PrecioUnitario * v.Cantidad;
-          Console.WriteLine($"ID: {v.Id} | Cliente: {v.Cliente.Nombre} | Vendedor: {v.Vendedor.Nombre} | Repuesto: {v.Repuesto.Nombre} | Cantidad: {v.Cantidad} | Total: {total} | Fecha: {v.Fecha:yyyy-MM-dd}");
+            Console.WriteLine($"ID: {s.Id} | Customer: {s.Customer.FirstName} | Seller: {s.Seller.FirstName} | Spare Part: {s.SparePart.Name} | Quantity: {s.Quantity} | Total: {s.Total:C} | Date: {s.Date:yyyy-MM-dd}");
         }
     }
 
-    public static void Agregar()
+    public static void AddSale()
     {
-        using var db = new Conexion();
+        using var db = new Connection();
 
-        Console.Write("ID del Cliente: ");
-        int clienteId = int.Parse(Console.ReadLine());
-        var cliente = db.Clientes.Find(clienteId);
-        if (cliente == null)
+        Console.Write("Customer ID: ");
+        int customerId = int.Parse(Console.ReadLine());
+        var customer = db.Customers.Find(customerId);
+        if (customer == null)
         {
-            Console.WriteLine("Cliente no encontrado.");
+            Console.WriteLine("Customer not found.");
             return;
         }
 
-        Console.Write("ID del Vendedor: ");
-        int vendedorId = int.Parse(Console.ReadLine());
-        var vendedor = db.Vendedores.Find(vendedorId);
-        if (vendedor == null)
+        Console.Write("Seller ID: ");
+        int sellerId = int.Parse(Console.ReadLine());
+        var seller = db.Sellers.Find(sellerId);
+        if (seller == null)
         {
-            Console.WriteLine("Vendedor no encontrado.");
+            Console.WriteLine("Seller not found.");
             return;
         }
 
-        Console.Write("ID del Repuesto: ");
-        int repuestoId = int.Parse(Console.ReadLine());
-        var repuesto = db.Repuestos.Find(repuestoId);
-        if (repuesto == null)
+        Console.Write("Spare Part ID: ");
+        int sparePartId = int.Parse(Console.ReadLine());
+        var sparePart = db.SpareParts.Find(sparePartId);
+        if (sparePart == null)
         {
-            Console.WriteLine("Repuesto no encontrado.");
+            Console.WriteLine("Spare part not found.");
             return;
         }
 
-        Console.Write("Cantidad: ");
-        int cantidad = int.Parse(Console.ReadLine());
+        Console.Write("Quantity: ");
+        int quantity = int.Parse(Console.ReadLine());
 
-        var venta = new Venta
+        var sale = new Sale
         {
-            Cliente = cliente,
-            Vendedor = vendedor,
-            Repuesto = repuesto,
-            Cantidad = cantidad,
-            Fecha = DateTime.Now
+            Customer = customer,
+            Seller = seller,
+            SparePart = sparePart,
+            Quantity = quantity,
+            UnitPrice = sparePart.UnitPrice,  // Freeze price at the moment of sale
+            Date = DateTime.Now
         };
 
-        db.Ventas.Add(venta);
+        db.Sales.Add(sale);
         db.SaveChanges();
 
-        double total = repuesto.PrecioUnitario * cantidad;
+        double total = sale.Total;
 
-        Console.WriteLine("\n=== Venta registrada exitosamente ===");
-        Console.WriteLine($"Cliente: {cliente.Nombre}");
-        Console.WriteLine($"Vendedor: {vendedor.Nombre}");
-        Console.WriteLine($"Repuesto: {repuesto.Nombre}");
-        Console.WriteLine($"Cantidad: {cantidad}");
-        Console.WriteLine($"Precio Unitario: {repuesto.PrecioUnitario}");
-        Console.WriteLine($"Total a pagar: {total}");
-        Console.WriteLine($"Fecha: {venta.Fecha}");
+        Console.WriteLine("\n=== Sale successfully recorded ===");
+        Console.WriteLine($"Customer: {customer.FirstName}");
+        Console.WriteLine($"Seller: {seller.FirstName}");
+        Console.WriteLine($"Spare Part: {sparePart.Name}");
+        Console.WriteLine($"Quantity: {quantity}");
+        Console.WriteLine($"Unit Price: {sale.UnitPrice}");
+        Console.WriteLine($"Total to pay: {total:C}");
+        Console.WriteLine($"Date: {sale.Date:yyyy-MM-dd HH:mm}");
     }
 
-    public static void Ver()
+    public static void ViewAll()
     {
-        using var db = new Conexion();
-        var ventas = db.Ventas
-            .Include(v => v.Cliente)
-            .Include(v => v.Vendedor)
-            .Include(v => v.Repuesto)
+        using var db = new Connection();
+        var sales = db.Sales
+            .Include(s => s.Customer)
+            .Include(s => s.Seller)
+            .Include(s => s.SparePart)
             .ToList();
 
-        foreach (var v in ventas)
+        foreach (var s in sales)
         {
-            double total = v.Repuesto.PrecioUnitario * v.Cantidad;
-            Console.WriteLine($"ID: {v.Id} | Cliente: {v.Cliente.Nombre} | Vendedor: {v.Vendedor.Nombre} | Repuesto: {v.Repuesto.Nombre} | Cantidad: {v.Cantidad} | Precio: {v.Repuesto.PrecioUnitario} | Total: {total} | Fecha: {v.Fecha}");
+            Console.WriteLine($"ID: {s.Id} | Customer: {s.Customer.FirstName} | Seller: {s.Seller.FirstName} | Spare Part: {s.SparePart.Name} | Quantity: {s.Quantity} | Price: {s.UnitPrice} | Total: {s.Total:C} | Date: {s.Date:yyyy-MM-dd HH:mm}");
         }
     }
 
-    public static void VerPorId()
+    public static void ViewById()
     {
-        Console.Write("ID de la venta a mostrar: ");
+        Console.Write("Sale ID to display: ");
         if (!int.TryParse(Console.ReadLine(), out int id))
         {
-            Console.WriteLine("ID inválido.");
+            Console.WriteLine("Invalid ID.");
             return;
         }
 
-        using var db = new Conexion();
-        var venta = db.Ventas
-            .Include(v => v.Cliente)
-            .Include(v => v.Vendedor)
-            .Include(v => v.Repuesto)
-            .FirstOrDefault(v => v.Id == id);
+        using var db = new Connection();
+        var sale = db.Sales
+            .Include(s => s.Customer)
+            .Include(s => s.Seller)
+            .Include(s => s.SparePart)
+            .FirstOrDefault(s => s.Id == id);
 
-        if (venta == null)
+        if (sale == null)
         {
-            Console.WriteLine("Venta no encontrada.");
+            Console.WriteLine("Sale not found.");
             return;
         }
 
-        double total = venta.Repuesto.PrecioUnitario * venta.Cantidad;
-
-        Console.WriteLine($"ID: {venta.Id}");
-        Console.WriteLine($"Cliente: {venta.Cliente.Nombre}");
-        Console.WriteLine($"Vendedor: {venta.Vendedor.Nombre}");
-        Console.WriteLine($"Repuesto: {venta.Repuesto.Nombre}");
-        Console.WriteLine($"Cantidad: {venta.Cantidad}");
-        Console.WriteLine($"Precio Unitario: {venta.Repuesto.PrecioUnitario}");
-        Console.WriteLine($"Total: {total}");
-        Console.WriteLine($"Fecha: {venta.Fecha}");
+        Console.WriteLine($"ID: {sale.Id}");
+        Console.WriteLine($"Customer: {sale.Customer.FirstName}");
+        Console.WriteLine($"Seller: {sale.Seller.FirstName}");
+        Console.WriteLine($"Spare Part: {sale.SparePart.Name}");
+        Console.WriteLine($"Quantity: {sale.Quantity}");
+        Console.WriteLine($"Unit Price: {sale.UnitPrice}");
+        Console.WriteLine($"Total: {sale.Total:C}");
+        Console.WriteLine($"Date: {sale.Date:yyyy-MM-dd HH:mm}");
     }
 
-
-    public static void Actualizar()
+    public static void Update()
     {
-        Console.Write("ID de la venta a actualizar: ");
+        Console.Write("Sale ID to update: ");
         if (!int.TryParse(Console.ReadLine(), out int id))
         {
-            Console.WriteLine("ID inválido.");
+            Console.WriteLine("Invalid ID.");
             return;
         }
 
-        using var db = new Conexion();
-        var venta = db.Ventas
-            .Include(v => v.Cliente)
-            .Include(v => v.Vendedor)
-            .Include(v => v.Repuesto)
-            .FirstOrDefault(v => v.Id == id);
+        using var db = new Connection();
+        var sale = db.Sales
+            .Include(s => s.Customer)
+            .Include(s => s.Seller)
+            .Include(s => s.SparePart)
+            .FirstOrDefault(s => s.Id == id);
 
-        if (venta == null)
+        if (sale == null)
         {
-            Console.WriteLine("Venta no encontrada.");
+            Console.WriteLine("Sale not found.");
             return;
         }
 
-        Console.WriteLine($"Cliente actual: {venta.Cliente.Nombre} (ID: {venta.Cliente.Id})");
-        Console.Write("Nuevo ID de cliente (enter para no cambiar): ");
-        string clienteInput = Console.ReadLine();
-        if (!string.IsNullOrEmpty(clienteInput) && int.TryParse(clienteInput, out int nuevoClienteId))
+        Console.WriteLine($"Current Customer: {sale.Customer.FirstName} (ID: {sale.Customer.Id})");
+        Console.Write("New Customer ID (press enter to keep current): ");
+        string customerInput = Console.ReadLine();
+        if (!string.IsNullOrEmpty(customerInput) && int.TryParse(customerInput, out int newCustomerId))
         {
-            var nuevoCliente = db.Clientes.Find(nuevoClienteId);
-            if (nuevoCliente != null)
-                venta.Cliente = nuevoCliente;
+            var newCustomer = db.Customers.Find(newCustomerId);
+            if (newCustomer != null)
+                sale.Customer = newCustomer;
             else
-                Console.WriteLine("Cliente no encontrado. No se actualizó.");
+                Console.WriteLine("Customer not found. Not updated.");
         }
 
-        Console.WriteLine($"Vendedor actual: {venta.Vendedor.Nombre} (ID: {venta.Vendedor.Id})");
-        Console.Write("Nuevo ID de vendedor (enter para no cambiar): ");
-        string vendedorInput = Console.ReadLine();
-        if (!string.IsNullOrEmpty(vendedorInput) && int.TryParse(vendedorInput, out int nuevoVendedorId))
+        Console.WriteLine($"Current Seller: {sale.Customer.FirstName} (ID: {sale.Seller.Id})");
+        Console.Write("New Seller ID (press enter to keep current): ");
+        string sellerInput = Console.ReadLine();
+        if (!string.IsNullOrEmpty(sellerInput) && int.TryParse(sellerInput, out int newSellerId))
         {
-            var nuevoVendedor = db.Vendedores.Find(nuevoVendedorId);
-            if (nuevoVendedor != null)
-                venta.Vendedor = nuevoVendedor;
+            var newSeller = db.Sellers.Find(newSellerId);
+            if (newSeller != null)
+                sale.Seller = newSeller;
             else
-                Console.WriteLine("Vendedor no encontrado. No se actualizó.");
+                Console.WriteLine("Seller not found. Not updated.");
         }
 
-        Console.WriteLine($"Repuesto actual: {venta.Repuesto.Nombre} (ID: {venta.Repuesto.Id})");
-        Console.Write("Nuevo ID de repuesto (enter para no cambiar): ");
-        string repuestoInput = Console.ReadLine();
-        if (!string.IsNullOrEmpty(repuestoInput) && int.TryParse(repuestoInput, out int nuevoRepuestoId))
+        Console.WriteLine($"Current Spare Part: {sale.Customer.FirstName} (ID: {sale.SparePart.Id})");
+        Console.Write("New Spare Part ID (press enter to keep current): ");
+        string sparePartInput = Console.ReadLine();
+        if (!string.IsNullOrEmpty(sparePartInput) && int.TryParse(sparePartInput, out int newSparePartId))
         {
-            var nuevoRepuesto = db.Repuestos.Find(nuevoRepuestoId);
-            if (nuevoRepuesto != null)
-                venta.Repuesto = nuevoRepuesto;
+            var newSparePart = db.SpareParts.Find(newSparePartId);
+            if (newSparePart != null)
+            {
+                sale.SparePart = newSparePart;
+                sale.UnitPrice = newSparePart.UnitPrice; // update unit price too
+            }
             else
-                Console.WriteLine("Repuesto no encontrado. No se actualizó.");
+                Console.WriteLine("Spare part not found. Not updated.");
         }
 
-        Console.Write($"Cantidad actual: {venta.Cantidad}. Nueva cantidad: ");
-        string cantidadInput = Console.ReadLine();
-        if (!string.IsNullOrEmpty(cantidadInput) && int.TryParse(cantidadInput, out int nuevaCantidad))
+        Console.Write($"Current quantity: {sale.Quantity}. New quantity: ");
+        string quantityInput = Console.ReadLine();
+        if (!string.IsNullOrEmpty(quantityInput) && int.TryParse(quantityInput, out int newQuantity))
         {
-            venta.Cantidad = nuevaCantidad;
+            sale.Quantity = newQuantity;
         }
 
         db.SaveChanges();
-        Console.WriteLine("Venta actualizada.");
+        Console.WriteLine("Sale updated.");
     }
 
-    public static void Eliminar()
+    public static void Delete()
     {
-        Console.Write("ID de la venta a eliminar: ");
+        Console.Write("Sale ID to delete: ");
         if (!int.TryParse(Console.ReadLine(), out int id))
         {
-            Console.WriteLine("ID inválido.");
+            Console.WriteLine("Invalid ID.");
             return;
         }
 
-        using var db = new Conexion();
-        var venta = db.Ventas.Find(id);
+        using var db = new Connection();
+        var sale = db.Sales.Find(id);
 
-        if (venta == null)
+        if (sale == null)
         {
-            Console.WriteLine("Venta no encontrada.");
+            Console.WriteLine("Sale not found.");
             return;
         }
 
-        db.Ventas.Remove(venta);
+        db.Sales.Remove(sale);
         db.SaveChanges();
-        Console.WriteLine("Venta eliminada.");
+        Console.WriteLine("Sale deleted.");
     }
 }
