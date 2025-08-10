@@ -5,6 +5,33 @@ using taller_mecanico_v2.dbcontext;
 
 public class VehiculoService
 {
+    public static void VerPorplaca()
+    {
+        using var conexion = new Conexion(new DbContextOptionsBuilder<Conexion>().Options);
+
+        Console.Write("Ingrese la placa del vehiculo a consultar: ");
+        if (int.TryParse(Console.ReadLine(), out int Placa))
+        {
+            var vehiculo = conexion.Vehiculos.Find(Placa);
+            if (vehiculo != null)
+            {
+                Console.WriteLine("=== Información del Vehiculo ===");
+                Console.WriteLine($"Placa: {vehiculo.Placa}");
+                Console.WriteLine($"Modelo: {vehiculo.Modelo}");
+                Console.WriteLine($"Marca: {vehiculo.Marca}");
+                Console.WriteLine($"Anio: {vehiculo.Año}");
+                Console.WriteLine($"Cliente: {vehiculo.IdCliente}");
+            }
+            else
+            {
+                Console.WriteLine("Vehiculo no encontrado.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("ID inválido.");
+        }
+    }
     public static void Agregar()
     {
         Console.Write("Placa: ");

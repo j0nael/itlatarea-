@@ -33,11 +33,11 @@ public class Factura
 
     public Factura(int id, Cliente cliente, Vendedor vendedor)
     {
-        Id = id;
-        Cliente = cliente;
-        Vendedor = vendedor;
-        Fecha = DateTime.Now;
-        DetallesVenta = new List<Venta>();
+        this.Id = id;
+        this.Cliente = cliente;
+        this.Vendedor = vendedor;
+        this.Fecha = DateTime.Now;
+        this.DetallesVenta = new List<Venta>();
     }
 
     public void AgregarVenta(Venta venta)

@@ -14,7 +14,6 @@ public class ReparacionService
         string descripcion = Console.ReadLine();
         Console.Write("Costo: ");
         double costo = double.Parse(Console.ReadLine());
-        Console.Write("Fecha entrada (yyyy-MM-dd): ");
         DateTime fecha = DateTime.Now;
 
         var reparacion = new Reparacion(0, placa, idMecanico, descripcion, costo, fecha);
@@ -23,7 +22,7 @@ public class ReparacionService
         db.Reparaciones.Add(reparacion);
         db.SaveChanges();
 
-        Console.WriteLine("Reparación agregada.");
+        Console.WriteLine("Repacion agregada.");
     }
 
     public static void Ver()
@@ -34,6 +33,37 @@ public class ReparacionService
         foreach (var r in lista)
         {
             Console.WriteLine($"ID: {r.Id}, Placa: {r.PlacaVehiculo}, Mecánico: {r.IdMecanico}, Descripción: {r.Descripcion}, Costo: {r.Costo}, Fecha: {r.Fecha.ToShortDateString()}");
+        }
+    }
+    public static void FiltrarPorFecha()
+    {
+        Console.Write("Fecha de inicio (yyyy-MM-dd): ");
+        var fechaInicioInput = Console.ReadLine();
+        Console.Write("Fecha de fin (yyyy-MM-dd): ");
+        var fechaFinInput = Console.ReadLine();
+
+        if (!DateTime.TryParse(fechaInicioInput, out DateTime fechaInicio) ||
+            !DateTime.TryParse(fechaFinInput, out DateTime fechaFin))
+        {
+            Console.WriteLine("Una o ambas fechas son inválidas.");
+            return;
+        }
+
+        using var db = new Conexion();
+        var reparaciones = db.Reparaciones
+            .Where(r => r.Fecha.Date >= fechaInicio.Date && r.Fecha.Date <= fechaFin.Date)
+            .ToList();
+
+        if (reparaciones.Count == 0)
+        {
+            Console.WriteLine("No se encontraron reparaciones en ese rango de fechas.");
+            return;
+        }
+
+        Console.WriteLine("=== Reparaciones encontradas ===");
+        foreach (var r in reparaciones)
+        {
+            Console.WriteLine($"ID: {r.Id}, Placa: {r.PlacaVehiculo}, Mecánico: {r.IdMecanico}, Descripción: {r.Descripcion}, Costo: {r.Costo}, Fecha: {r.Fecha:yyyy-MM-dd}");
         }
     }
 

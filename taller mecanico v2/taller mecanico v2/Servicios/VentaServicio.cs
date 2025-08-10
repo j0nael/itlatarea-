@@ -42,15 +42,13 @@ public class VentaServicio
 
         foreach (var v in ventas)
         {
-            Console.WriteLine($"ID: {v.Id} | Cliente: {v.Cliente.Nombre} | Vendedor: {v.Vendedor.Nombre} | Repuesto: {v.Repuesto.Nombre} | Cantidad: {v.Cantidad} | Total: {v.Total:C} | Fecha: {v.Fecha}");
+          double total = v.Repuesto.PrecioUnitario * v.Cantidad;
+          Console.WriteLine($"ID: {v.Id} | Cliente: {v.Cliente.Nombre} | Vendedor: {v.Vendedor.Nombre} | Repuesto: {v.Repuesto.Nombre} | Cantidad: {v.Cantidad} | Total: {total} | Fecha: {v.Fecha:yyyy-MM-dd}");
         }
     }
 
-
     public static void Agregar()
     {
-
-
         using var db = new Conexion();
 
         Console.Write("ID del Cliente: ");
@@ -94,7 +92,17 @@ public class VentaServicio
 
         db.Ventas.Add(venta);
         db.SaveChanges();
-        Console.WriteLine("Venta registrada.");
+
+        double total = repuesto.PrecioUnitario * cantidad;
+
+        Console.WriteLine("\n=== Venta registrada exitosamente ===");
+        Console.WriteLine($"Cliente: {cliente.Nombre}");
+        Console.WriteLine($"Vendedor: {vendedor.Nombre}");
+        Console.WriteLine($"Repuesto: {repuesto.Nombre}");
+        Console.WriteLine($"Cantidad: {cantidad}");
+        Console.WriteLine($"Precio Unitario: {repuesto.PrecioUnitario}");
+        Console.WriteLine($"Total a pagar: {total}");
+        Console.WriteLine($"Fecha: {venta.Fecha}");
     }
 
     public static void Ver()
@@ -108,7 +116,8 @@ public class VentaServicio
 
         foreach (var v in ventas)
         {
-            Console.WriteLine($"ID: {v.Id} | Cliente: {v.Cliente.Nombre} | Vendedor: {v.Vendedor.Nombre} | Repuesto: {v.Repuesto.Nombre} | Cantidad: {v.Cantidad} | Total: {v.Total:C} | Fecha: {v.Fecha}");
+            double total = v.Repuesto.PrecioUnitario * v.Cantidad;
+            Console.WriteLine($"ID: {v.Id} | Cliente: {v.Cliente.Nombre} | Vendedor: {v.Vendedor.Nombre} | Repuesto: {v.Repuesto.Nombre} | Cantidad: {v.Cantidad} | Precio: {v.Repuesto.PrecioUnitario} | Total: {total} | Fecha: {v.Fecha}");
         }
     }
 
@@ -134,12 +143,15 @@ public class VentaServicio
             return;
         }
 
+        double total = venta.Repuesto.PrecioUnitario * venta.Cantidad;
+
         Console.WriteLine($"ID: {venta.Id}");
         Console.WriteLine($"Cliente: {venta.Cliente.Nombre}");
         Console.WriteLine($"Vendedor: {venta.Vendedor.Nombre}");
         Console.WriteLine($"Repuesto: {venta.Repuesto.Nombre}");
         Console.WriteLine($"Cantidad: {venta.Cantidad}");
-        Console.WriteLine($"Total: {venta.Total:C}");
+        Console.WriteLine($"Precio Unitario: {venta.Repuesto.PrecioUnitario}");
+        Console.WriteLine($"Total: {total}");
         Console.WriteLine($"Fecha: {venta.Fecha}");
     }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 public class Venta
 {
@@ -19,7 +18,7 @@ public class Venta
     [Range(1, int.MaxValue)]
     public int Cantidad { get; set; }
 
-    public double PrecioUnitario { get; set; } // Para registrar el precio usado en esta venta
+    public double PrecioUnitario { get; set; } 
 
     public double Total => PrecioUnitario * Cantidad;
 
@@ -35,6 +34,7 @@ public class Venta
         Cantidad = cantidad;
         PrecioUnitario = repuesto.PrecioUnitario; // Precio congelado al momento de la venta
         Fecha = DateTime.Now;
+
     }
 
     public string MostrarDetalle()

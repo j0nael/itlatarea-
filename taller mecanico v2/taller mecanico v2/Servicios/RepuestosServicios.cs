@@ -25,13 +25,13 @@ public class RepuestoService
             double totalVendido = ventas.Sum(v => v.Total);
             double valorInventario = repuesto.Cantidad * repuesto.PrecioUnitario;
 
-            Console.WriteLine($"\n🔧 Repuesto: {repuesto.Nombre}");
+            Console.WriteLine($"\nRepuesto: {repuesto.Nombre}");
             Console.WriteLine($"- En Stock: {repuesto.Cantidad}");
-            Console.WriteLine($"- Precio Unitario: {repuesto.PrecioUnitario:C}");
-            Console.WriteLine($"- Precio por Mayor: {repuesto.PrecioPorMayor:C}");
+            Console.WriteLine($"- Precio Unitario: {repuesto.PrecioUnitario}");
+            Console.WriteLine($"- Precio por Mayor: {repuesto.PrecioPorMayor}");
             Console.WriteLine($"- Vendidos: {vendidos}");
-            Console.WriteLine($"- Valor en Inventario: {valorInventario:C}");
-            Console.WriteLine($"- Valor Total Vendido: {totalVendido:C}");
+            Console.WriteLine($"- Valor en Inventario: {valorInventario}");
+            Console.WriteLine($"- Valor Total Vendido: {totalVendido}");
         }
     }
 

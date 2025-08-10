@@ -9,15 +9,17 @@ public class Cliente
         public string Nombre { get; set; }
         public string Telefono { get; set; }
         public string Correo { get; set; }
+    public string Apellido { get; set; }
    
     public List<Vehiculo> Vehiculos { get; set; }
-    public Cliente(int id, string nombre, string telefono, string correo)
-        {
-            this.Id = id;
-            this.Nombre = nombre;
-            this.Telefono = telefono;
-            this.Correo = correo;
-        }
+    public Cliente(int id, string nombre, string telefono, string correo, string apellido)
+    {
+        this.Id = id;
+        this.Nombre = nombre;
+        this.Telefono = telefono;
+        this.Correo = correo;
+        this.Apellido = apellido;
+    }
 
-        public Cliente() { }
+    public Cliente() { }
     }
